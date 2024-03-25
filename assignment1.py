@@ -1,12 +1,15 @@
-# Assignment 1: PyTrace
+# CENG 488 Assignment7 by
+# Ramazan Cuhaci
+# StudentId: 240201047
+# Month Year: 03 / 2024
 
 
 import sys
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from view import*
-from scene import Scene
+from world.view import PyTraceMainWindow
+from world.scene import Scene
 
 
 if __name__ == "__main__":

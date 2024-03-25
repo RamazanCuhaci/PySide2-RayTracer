@@ -1,10 +1,10 @@
 import json
 import sys
-from mathlib.vector import*
-from shapes import Sphere
-from camera import Camera
-from ray import Ray
-from PySide2.QtGui import QColor
+from utility.vector import*
+from objects.shapes import Sphere
+from world.camera import Camera
+from utility.ray import Ray
+import os
 
 class Scene:
 
@@ -19,36 +19,22 @@ class Scene:
     def addCamera(self,cam):
         self.camera = cam
 
-    def hit_objects(self,ray:Ray):
-        
-        color = QColor(0,0,0)
-        hit_point = None
-        min_hit_point = float('inf')
-        
-        for shape in self.objects:
-            hit_point= shape.hit(ray)
-            if hit_point < min_hit_point and hit_point > sys.float_info.epsilon:
-                min_hit_point = hit_point
-                color = shape.color
-
-        return color
-                 
-
     def buildScene(self,scene_path):
 
-        with open(scene_path, 'r') as file:
+
+        relative_path = os.path.join(os.path.dirname(__file__), scene_path)
+
+        with open(relative_path, 'r') as file:
             json_data = json.load(file)
 
+
         camera_data = json_data["camera"]
-        render_data = json_data["renderSettings"]
 
         camera = Camera(
             camera_data["posX"],
             camera_data["posY"],
             camera_data["posZ"],
             camera_data["focalLength"],
-            render_data["xres"],
-            render_data["yres"]
         )
 
        

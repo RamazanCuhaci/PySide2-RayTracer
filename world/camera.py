@@ -1,9 +1,9 @@
-from mathlib.vector import *
-from ray import Ray
+from utility.vector import *
+from utility.ray import Ray
 
 class Camera:
 
-    def __init__(self,posX,posY,posZ,focal_length,x_res,y_res):
+    def __init__(self,posX,posY,posZ,focal_length):
         self.eye = Point3f(posX,posY,posZ)
         self.look_at = Point3f(0,0,0)
         self.direction = Vector3f(0,0,-1)
@@ -11,8 +11,6 @@ class Camera:
 
         self.focal_length = focal_length
         
-        self.x_res = x_res
-        self.y_res = y_res
 
     def send_ray(self,x,y,height,width):
         

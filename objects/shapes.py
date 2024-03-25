@@ -1,7 +1,9 @@
-from mathlib.vector import*
-from math import sqrt
-from PySide2.QtGui import QColor
 
+from math import sqrt
+from utility.ray import Ray
+from PySide2.QtGui import QColor
+from utility.vector import Point3f
+from utility.ray import Ray
 class Sphere():
     
     def __init__(self, radius, posX, posyY, posZ , r, g, b):
@@ -11,7 +13,7 @@ class Sphere():
         self.radius = radius
 
     
-    def hit(self, ray):
+    def hit(self, ray:Ray):
         
         temp = ray.origin - self.position
         a = ray.direction.dot(ray.direction)
@@ -25,6 +27,5 @@ class Sphere():
             e = sqrt(disc)
             denom = 2.0 * a
             t1 = (-b - e) / denom
-            t2 = (-b + e) / denom
-
+            t2 = (-b + e) / denom 
             return min(t1,t2)

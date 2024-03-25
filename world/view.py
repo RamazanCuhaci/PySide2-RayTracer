@@ -1,11 +1,8 @@
-import sys
-import random
-import time
-
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from scene import Scene
+from raytracer import RayTracer
+from world.scene import Scene
 
 
 class PaintWidget(QWidget):
@@ -44,7 +41,7 @@ class PyTraceMainWindow(QMainWindow):
         if not self.objectName():
             self.setObjectName(u"PyTrace")
         self.resize(self.width + 25, self.height + 25)
-        self.setWindowTitle("CENG488 PyTrace")
+        self.setWindowTitle("Implement Ray Sphere intersection")
         self.setStyleSheet("background-color:black;")
         self.setAutoFillBackground(True)
 
@@ -91,10 +88,13 @@ class PyTraceMainWindow(QMainWindow):
     def renderScene(self):
         print("Updating buffer...")
 
+        basic_tracer = RayTracer()
+
         # go through pixels
         for y in range(0, self.height):
             for x in range(0, self.width):
-                color = self.scene.hit_objects(self.scene.camera.send_ray(x, y,self.height,self.width))
+                ray = self.scene.camera.send_ray(x, y,self.height,self.width)
+                color = basic_tracer.trace(ray, self.scene)
                 self.paintWidget.imgBuffer.setPixelColor(x, y, color)
 
             self.updateBuffer()
