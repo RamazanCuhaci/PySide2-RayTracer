@@ -2,6 +2,7 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from raytracer import RayTracer
+from rendertask import RenderTask
 from world.scene import Scene
 
 
@@ -27,14 +28,15 @@ class PaintWidget(QWidget):
 
 
 class PyTraceMainWindow(QMainWindow):
-    def __init__(self, qApp, width, height,scene: Scene):
+    def __init__(self, qApp, scene: Scene):
         super(PyTraceMainWindow, self).__init__()
 
         self.qApp = qApp
-        self.width = width
-        self.height = height
+        self.width = scene.camera.res_x
+        self.height = scene.camera.res_y
         self.gfxScene = QGraphicsScene()
         self.scene = scene
+        self.threadPool = QThreadPool()
 
 
     def setupUi(self):
@@ -93,14 +95,16 @@ class PyTraceMainWindow(QMainWindow):
         # go through pixels
         for y in range(0, self.height):
             for x in range(0, self.width):
-                ray = self.scene.camera.send_ray(x, y,self.height,self.width)
-                color = basic_tracer.trace(ray, self.scene)
-                self.paintWidget.imgBuffer.setPixelColor(x, y, color)
+                task = RenderTask(x, y, self.scene, self.paintWidget, basic_tracer)
+                if self.threadPool.activeThreadCount() != 1:
+                    print(self.threadPool.activeThreadCount())
+                self.threadPool.start(task)
 
             self.updateBuffer()
             # don't wait for the task to finish to update the view
             self.qApp.processEvents()
 
+        
 
     def updateBuffer(self):
         self.paintWidget.update()

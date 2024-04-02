@@ -12,6 +12,8 @@ from world.view import PyTraceMainWindow
 from world.scene import Scene
 
 
+# Fixed aspect ratio issue by using the aspect ratio of the camera in the calculation of the pixel_ndc_x and pixel_ndc_y values.
+
 if __name__ == "__main__":
 	# setup a QApplication
 	qApp = QApplication(sys.argv)
@@ -19,13 +21,10 @@ if __name__ == "__main__":
 	qApp.setOrganizationDomain("cavevfx.com")
 	qApp.setApplicationName("PyTrace")
 
-	# setup main ui
-	width = 800
-	height = 600
 
 	mainScene = Scene("scene.json")
 
-	mainWindow = PyTraceMainWindow(qApp, width, height,mainScene)
+	mainWindow = PyTraceMainWindow(qApp, mainScene)
 	mainWindow.setupUi()
 	mainWindow.show()
 

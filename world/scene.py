@@ -1,5 +1,4 @@
 import json
-import sys
 from utility.vector import*
 from objects.shapes import Sphere
 from world.camera import Camera
@@ -21,7 +20,7 @@ class Scene:
 
     def buildScene(self,scene_path):
 
-
+        
         relative_path = os.path.join(os.path.dirname(__file__), scene_path)
 
         with open(relative_path, 'r') as file:
@@ -29,12 +28,14 @@ class Scene:
 
 
         camera_data = json_data["camera"]
-
+        render_data = json_data["renderSettings"]
         camera = Camera(
             camera_data["posX"],
             camera_data["posY"],
             camera_data["posZ"],
             camera_data["focalLength"],
+            render_data["xres"],
+            render_data["yres"],
         )
 
        

@@ -6,7 +6,7 @@ class RayTracer:
     def __init_(self):
         pass
 
-    def trace(self, ray, scene):
+    def trace(self, ray, scene,paintWidget):
         
         color = QColor(0,0,0)
         hit_point = None
