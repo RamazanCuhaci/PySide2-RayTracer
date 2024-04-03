@@ -1,16 +1,18 @@
+import sys
+sys.dont_write_bytecode = True
 import json
 from utility.vector import*
 from objects.shapes import Sphere
 from world.camera import Camera
-from utility.ray import Ray
 import os
 
 class Scene:
 
     def __init__(self,scene_path):
-        self.objects = []
+        self.objects : Sphere = []
         self.buildScene(scene_path)
         self.camera : Camera
+        self.rayCount = 0
 
     def addObject(self,obj):
         self.objects.append(obj)
